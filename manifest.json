@@ -1,0 +1,28 @@
+{
+  "name": "ObservePoint Simulation Copy",
+  "description": "Copies a simulation",
+  "version": "0.1",
+  "permissions": ["activeTab", "tabs", "storage"],
+
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+
+	"content_scripts": [{
+			"matches": [
+				"https://my.observepoint.com/simulation/form*"
+			],
+			"js": [
+				"jquery-2.2.3.min.js",
+			 	"copy.js",
+			 	"paste.js"
+			]
+	}],
+
+  "browser_action": {
+  	"name": "ObservePoint Simulation Copy",
+   	"default_icon": "icon.png"
+   },
+  "manifest_version": 2
+}
