@@ -2,8 +2,14 @@ var tabStorage = [];
 
 // Called when the user clicks on the browser action.
 chrome.browserAction.onClicked.addListener(function(tab) {
+
+	console.log(tab.url);
+	var code = 'copySimulation()';
+	if (tab.url.match(/form\?p=58&t=3/)) {
+		code = 'pasteSimulation()';
+	}
   chrome.tabs.executeScript({
-    code: 'copySimulation();'
+    code: code
   });
 });
 

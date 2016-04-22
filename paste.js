@@ -1,13 +1,5 @@
 var clone;
 
-
-$(document).ready(function() {
-	if (window.location.href.match(/&t=3/) !== null) {
-		doPaste();
-	}
-});
-
-
 function waitForRows(e) {
     if ($(".action_row").length >= e) {
         var o = $(".action_row");
@@ -27,18 +19,21 @@ function refreshMyRows() {
 }
 
 
+
+
+
 function popalate(clone) {
 
 	$readyToRefresh = false;
 	$(clone[0].ActionSet).each(function() {
 		var link = document.querySelector('a[data-remote="true"]');
 		link.click();
-		//$('a[data-remote="true"]').click();
 	});
 
 	waitForRows(clone[0].ActionSet.length);
 	refreshMyRows();
-	$("#flow_description").val(clone[0].Name + " - CHANGE-ME");
+
+	$("#flow_description").val(clone[0].Name + " ***** COPY *****");
 	$("#flow_starting_url").val(clone[0].Address);
 	$("#uniform-flow_monitor_frequency_in_minutes select").val(clone[0].Frequency);
 	$("#flow_location_id").val(clone[0].Location);
@@ -59,7 +54,7 @@ function popalate(clone) {
 }
 
 
-function doPaste() {
+function pasteSimulation() {
 	chrome.storage.sync.get("observePointClone", function (obj) {
 	    clone = JSON.parse(obj["observePointClone"]);
 	    popalate(clone);
