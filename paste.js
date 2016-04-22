@@ -1,37 +1,30 @@
 var clone;
 
-function waitForRows(e) {
-    if ($(".action_row").length >= e) {
-        var o = $(".action_row");
-        for (i = 0; i < o.length; i++) $(o[i]).find("input[placeholder='value']").val(clone[0].ActionSet[i].Value), $(o[i]).find("input[placeholder='identifier']").val(clone[0].ActionSet[i].Identifier), clone[0].ActionSet[i].PreventNav && $(o[i]).find("input[name$='[prevent_navigation]']").prop("checked", !0), i == o.length - 1 && ($readyToRefresh = !0)
-    } else setTimeout(function() {
-        waitForRows(e)
-    }, 25)
+function addActionRow(actionSet, index) {
+	var link = document.querySelector('a[data-remote="true"]');
+	link.click();
+	if (waitForActionRow(index)) {
+		$('.action_row')[index].find("input[placeholder='value']").val(clone[0].ActionSet[i].Value);
+		$('.action_row')[index].find("input[placeholder='identifier']").val(clone[0].ActionSet[i].Identifier);
+		$('.action_row')[index].find("input[name$='[prevent_navigation]']").prop(actionSet.PreventNav ? "checked" : "");
+	}
 }
 
-function refreshMyRows() {
-    if ($readyToRefresh) {
-        var action = $(".action_row");
-        for (i = 0; i < action.length; i++) $actionSelect = $(action[i]).find("select"), $actionSelect.val(clone[0].ActionSet[i].ActionType), $refreshRow = eval($actionSelect.attr("onchange"))
-    } else setTimeout(function() {
-        refreshMyRows()
-    }, 25)
+function waitForActionRow(index) {
+	if ($('.action_row').length == index+1) {
+		console.log('action row created!');
+		return true;
+	} else {
+		//setTimeout(function() { waitForActionRow(index); }, 1000);
+	}
 }
-
-
-
-
 
 function popalate(clone) {
 
-	$readyToRefresh = false;
+	// $readyToRefresh = false;
 	$(clone[0].ActionSet).each(function() {
-		var link = document.querySelector('a[data-remote="true"]');
-		link.click();
+		addActionRow(this, clone[0].ActionSet.indexOf(this));
 	});
-
-	waitForRows(clone[0].ActionSet.length);
-	refreshMyRows();
 
 	$("#flow_description").val(clone[0].Name + " ***** COPY *****");
 	$("#flow_starting_url").val(clone[0].Address);
